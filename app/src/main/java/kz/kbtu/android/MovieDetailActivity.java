@@ -38,15 +38,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        Movie movie = (Movie) getIntent().getExtras().getSerializable("movie");
-        String date = movie.date.getDay() + "." + movie.date.getMonth() + "." + movie.date.getYear() +
-                " " + movie.date.getHours() + ":" + movie.date.getMinutes();
-        genreText.setText(movie.genre);
-        collapsingToolbarLayout.setTitle(movie.name);
-        descText.setText(movie.desc);
+        Result movie = (Result) getIntent().getExtras().getSerializable("movie");
+        collapsingToolbarLayout.setTitle(movie.getTitle());
+        descText.setText(movie.getOverview());
         collapsingToolbarLayout.setContentScrim(ContextCompat.getDrawable(this, R.drawable.bg_toolbar));
-        Glide.with(this).load(movie.urlImage).into(toolbarImageView);
-
+        Glide.with(this)
+                .load("https://image.tmdb.org/t/p/w200" + movie.getPoster_path())
+                .into(toolbarImageView);
 
     }
 

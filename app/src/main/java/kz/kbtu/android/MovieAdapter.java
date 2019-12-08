@@ -14,22 +14,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieItemViewHolder> {
 
-    private ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<Result> movies = new ArrayList<>();
     private OnMovieClickListener listener;
 
     public MovieAdapter() {
 
     }
 
-    public MovieAdapter(List<Movie> movies, OnMovieClickListener listener) {
-        this.movies.addAll(movies);
+    public MovieAdapter(OnMovieClickListener listener) {
         this.listener = listener;
     }
 
+    public void setMovies(ArrayList<Result> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -58,7 +60,7 @@ class MovieItemViewHolder extends RecyclerView.ViewHolder implements View.OnClic
     private ImageView imageMovie;
     private Context context;
     private OnMovieClickListener listener;
-    private Movie movie;
+    private Result movie;
 
 
     MovieItemViewHolder(View view) {
@@ -71,15 +73,11 @@ class MovieItemViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     }
 
-    void bindView(Movie movie, OnMovieClickListener listener) {
+    void bindView(Result movie, OnMovieClickListener listener) {
         this.movie = movie;
-        nameText.setText(movie.name);
-        desc.setText(movie.genre);
+        nameText.setText(movie.getTitle());
         this.listener = listener;
-        String date = movie.date.getDay() + "." + movie.date.getMonth() + "." + movie.date.getYear() +
-                " " + movie.date.getHours() + ":" + movie.date.getMinutes();
-        dateText.setText(date);
-        Glide.with(context).load(movie.urlImage).into(imageMovie);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w200" + movie.getPoster_path()).into(imageMovie);
         itemView.setOnClickListener(this);
     }
 
